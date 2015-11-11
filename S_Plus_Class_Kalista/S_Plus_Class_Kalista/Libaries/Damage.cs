@@ -1,122 +1,132 @@
-       <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:dividerPadding="0px"
-            android:layout_margin="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="0dp"
-            android:padding="0px"
-            android:paddingLeft="0px"
-            android:paddingTop="0px"
-            android:paddingRight="0px"
-            android:paddingBottom="0px"
-            android:layout_marginBottom="0px"
-            android:background="#b9b9b9">
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using LeagueSharp;
+using LeagueSharp.Common;
 
-            <Button
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:text="Tax"
-                android:id="@+id/button_tax"
-                android:layout_row="4"
-                android:layout_weight="1"
-                android:layout_column="0"
-                android:layout_margin="5px"
-                android:layout_marginLeft="5px"
-                android:layout_marginTop="5px"
-                android:layout_marginRight="5px"
-                android:layout_marginBottom="5px"
-                android:padding="5dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="5px"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:textStyle="bold"
-                android:enabled="true"
-                android:shadowColor="#ffffff"
-                android:singleLine="true"
-                android:background="#000000"
-                android:textColor="#ffffff"
-                android:textSize="8pt" />
+namespace S_Plus_Class_Kalista.Libaries
+{
+    class Damage
+    {
+        internal class DamageCalc : Core
+        {
+            #region Public Functions
 
-            <Button
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
+            public static bool CheckNoDamageBuffs(Obj_AI_Hero target)// From Asuna
+            {
+                foreach (var b in target.Buffs.Where(b => b.IsValidBuff()))
+                {
+                    switch (b.DisplayName)
+                    {
+                        case "Chrono Shift":
+                            return true;
+                        case "JudicatorIntervention":
+                            return true;
+                        case "Undying Rage":
+                            if (target.ChampionName == "Tryndamere")
+                                return true;
+                            continue;
 
-                android:text="Discount"
-                android:id="@+id/button_discount"
-                android:layout_row="4"
-                android:layout_weight="1"
-                android:layout_column="1"
-                android:layout_margin="5px"
-                android:layout_marginLeft="5px"
-                android:layout_marginTop="5px"
-                android:layout_marginRight="5px"
-                android:layout_marginBottom="5px"
-                android:padding="5dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="5px"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:background="#010101"
-                android:textStyle="bold"
-                android:enabled="true"
-                android:shadowColor="#ffffff"
-                android:singleLine="true"
-                android:textColor="#ffffff"
-                android:textSize="8pt" />
+                            //Spell Shields
+                        case "bansheesveil":
+                            return true;
+                        case "SivirE":
+                            return true;
+                        case "NocturneW":
+                            return true;
+                        case "kindredrnodeathbuff":
+                            return true;
+                    }
+                }
+                if (target.ChampionName == "Poppy" && HeroManager.Allies.Any(
+                    o =>
+                    {
+                        return !o.IsMe
+                               && o.Buffs.Any(
+                                   b =>
+                                       b.Caster.NetworkId == target.NetworkId && b.IsValidBuff()
+                                       && b.DisplayName == "PoppyDITarget");
+                    }))
+                {
+                    return true;
+                }
 
-            <Button
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:text="Coupons"
-                android:id="@+id/button_three"
-                android:layout_row="4"
-                android:layout_weight="1"
-                android:layout_column="2"
-                android:layout_margin="5px"
-                android:layout_marginLeft="5px"
-                android:layout_marginTop="5px"
-                android:layout_marginRight="5px"
-                android:layout_marginBottom="5px"
-                android:padding="5dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="5px"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:textStyle="bold"
-                android:enabled="true"
-                android:shadowColor="#ffffff"
-                android:singleLine="true"
-                android:background="#010101"
-                android:textColor="#ffffff"
-                android:textSize="8pt" />
+                return (target.HasBuffOfType(BuffType.Invulnerability)
+                        || target.HasBuffOfType(BuffType.SpellImmunity));
+                // || target.HasBuffOfType(BuffType.SpellShield));
+            }
 
-            <Button
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:text="Delete Item"
-                android:id="@+id/button_delete"
-                android:layout_row="4"
-                android:layout_weight="1"
-                android:layout_column="3"
-                android:layout_margin="5px"
-                android:layout_marginLeft="5px"
-                android:layout_marginTop="5px"
-                android:layout_marginRight="5px"
-                android:layout_marginBottom="5px"
-                android:padding="5dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="5px"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:background="#010101"
-                android:textStyle="bold"
-                android:enabled="true"
-                android:shadowColor="#ffffff"
-                android:singleLine="true"
-                android:textColor="#ffffff"
-                android:textSize="8pt" />
-        </TableRow>
+            #endregion Public Functions
+
+            #region Private Functions
+
+            private const string ShieldNames ="blindmonkwoneshield,evelynnrshield,EyeOfTheStorm,ItemSeraphsEmbrace,JarvanIVGoeldenAegis,KarmaSolKimShield,lulufarieshield,luxprismaticwaveshieldself,manabarrier,mordekaiserironman,nautiluspiercinggazeshield,orianaredactshield,rumbleshieldbuff,Shenstandunitedshield,SkarnerExoskeleton,summonerbarrier,tahmkencheshield,udyrturtleactivation,UrgotTerrorCapacitorActive2,ViktorPowerTransfer,dianashield,malphiteshieldeffect,RivenFeint,ShenStandUnited,sionwshieldstacks,vipassivebuff";
+
+            public static string[] ShieldBuffNames = ShieldNames.Split(',');
+
+            public static int GetRendCount(Obj_AI_Base target)
+            {
+                return target.GetBuffCount("kalistaexpungemarker");
+            }
+
+            private static readonly float[] RendBase = new float[] { 20, 30, 40, 50, 60 };
+            private const float RendBaseAdRate = .6f;
+            private static readonly float[] RendStackBase = { 10, 14, 19, 25, 32 };
+            private static readonly float[] RendStackAdRate = { 0.2f, 0.225f, 0.25f, 0.275f, 0.3f };
+
+            private static float GetRendDamage(Obj_AI_Base target)
+            {
+                var damage = 0f;
+                if (GetRendCount(target) <= 0) return 0f;
+
+                    var eLevel = Champion.E.Level - 1;
+                    var baseAd = Player.BaseAttackDamage + Player.FlatPhysicalDamageMod;
+                    damage = (RendBase[eLevel] + RendBaseAdRate*baseAd) + ((GetRendCount(target) - 1) * (RendStackBase[eLevel] + RendStackAdRate[eLevel]*baseAd));
+                    return (float)Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, damage - (10 + target.FlatHPRegenMod));
+            }
+
+            public static float GetShield(Obj_AI_Base target)
+            {              
+                return ShieldBuffNames.Any(target.HasBuff) ? target.AllShield : 0;
+            }
+
+            public static float CalculateRendDamage(Obj_AI_Base target)
+            {
+                var defuffer = 1f;
+
+                if (target.HasBuff("FerociousHowl") || target.HasBuff("GarenW"))
+                    defuffer *= .7f;
+
+                if (target.HasBuff("Medidate"))
+                    defuffer *= .5f - target.Spellbook.GetSpell(SpellSlot.E).Level * .05f;
+
+                if (target.HasBuff("gragaswself"))
+                    defuffer *= .9f - target.Spellbook.GetSpell(SpellSlot.W).Level * .02f;
+
+                if (target.Name.Contains("Baron") && Player.HasBuff("barontarget"))
+                    defuffer *= 0.5f;
+
+                if (target.Name.Contains("Dragon") && Player.HasBuff("s5test_dragonslayerbuff"))
+                    defuffer *= (1 - (.07f * Player.GetBuffCount("s5test_dragonslayerbuff")));
+
+                if (Player.HasBuff("summonerexhaust"))
+                    defuffer *= .4f;
+
+
+                if (!target.IsChampion()) return (GetRendDamage(target) * defuffer);
+
+                var healthDebuffer = 0f;
+                var hero = (Obj_AI_Hero)target;
+
+                if (hero.ChampionName == "Blitzcrank" && !target.HasBuff("BlitzcrankManaBarrierCD") && !target.HasBuff("ManaBarrier"))
+                    healthDebuffer += target.Mana / 2;
+
+                return (GetRendDamage(target) * defuffer) - (healthDebuffer + GetShield(target));
+            }
+
+            #endregion Private Functions
+        }
+    }
+}
