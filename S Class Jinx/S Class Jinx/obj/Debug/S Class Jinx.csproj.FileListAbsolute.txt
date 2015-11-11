@@ -1,0 +1,2 @@
+D:\Coding\Git\KallenSharp\S Class Jinx\S Class Jinx\bin\Debug\S Class Jinx.exe.config
+D:\Coding\Git\KallenSharp\S Class Jinx\S Class Jinx\obj\Debug\S Class Jinx.csprojResolveAssemblyReference.cache
