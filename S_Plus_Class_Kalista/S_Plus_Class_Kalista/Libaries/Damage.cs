@@ -84,7 +84,7 @@ namespace S_Plus_Class_Kalista.Libaries
                     var eLevel = Champion.E.Level - 1;
                     var baseAd = Player.BaseAttackDamage + Player.FlatPhysicalDamageMod;
                     damage = (RendBase[eLevel] + RendBaseAdRate*baseAd) + ((GetRendCount(target) - 1) * (RendStackBase[eLevel] + RendStackAdRate[eLevel]*baseAd));
-                    return (float)Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, damage - (15 + target.FlatHPRegenMod/2));
+                    return (float)Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, damage - (target.FlatHPRegenMod/2));
             }
 
             public static float GetShield(Obj_AI_Base target)
@@ -123,7 +123,7 @@ namespace S_Plus_Class_Kalista.Libaries
                 if (hero.ChampionName == "Blitzcrank" && !target.HasBuff("BlitzcrankManaBarrierCD") && !target.HasBuff("ManaBarrier"))
                     healthDebuffer += target.Mana / 2;
 
-                return (GetRendDamage(target) * defuffer) - (healthDebuffer + GetShield(target));
+                return (GetRendDamage(target) * defuffer) - (healthDebuffer + GetShield(target) + 15);
             }
 
             #endregion Private Functions
