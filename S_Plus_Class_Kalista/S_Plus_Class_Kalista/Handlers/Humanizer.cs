@@ -50,10 +50,10 @@ namespace S_Plus_Class_Kalista.Handlers
 
 
             var subMenuBlocker = new Menu(BlockerMenuNameBase,"blockerMenu");
-            subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MinAttacks", "Min Attacks a second").SetValue(new Slider(4, 3, 15)));
-            subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MaxAttacks", "Max Attacks a second").SetValue(new Slider(7, 3, 15)));
-            subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MinMoves", "Min Moves a second").SetValue(new Slider(4, 3, 10)));
-            subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MaxMoves", "Max Moves a second").SetValue(new Slider(6, 3, 10)));
+            //subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MinAttacks", "Min Attacks a second").SetValue(new Slider(4, 3, 15)));
+            //subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MaxAttacks", "Max Attacks a second").SetValue(new Slider(7, 3, 15)));
+            //subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MinMoves", "Min Moves a second").SetValue(new Slider(4, 3, 10)));
+            //subMenuBlocker.AddItem(new MenuItem(BlockerItemBase + "Slider.MaxMoves", "Max Moves a second").SetValue(new Slider(6, 3, 10)));
 
             menu.AddSubMenu(subMenuDelay);
             menu.AddSubMenu(subMenuBlocker);
