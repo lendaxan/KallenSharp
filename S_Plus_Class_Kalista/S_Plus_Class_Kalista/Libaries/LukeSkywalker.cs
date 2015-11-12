@@ -40,7 +40,7 @@ namespace S_Plus_Class_Kalista.Libaries
     /// </summary>
     public static class LukeSkywalker
     {
-
+        private const float HeathDebuffer = 15f;
         private static readonly string _orbwalkerName = ".LukeSkywalker";
 
         /// <summary>
@@ -202,6 +202,7 @@ namespace S_Plus_Class_Kalista.Libaries
         /// The player
         /// </summary>
         private static readonly Obj_AI_Hero Player;
+ 
 
         /// <summary>
         /// The delay
@@ -994,7 +995,7 @@ namespace S_Plus_Class_Kalista.Libaries
                                 InAutoAttackRange(minion) && MinionManager.IsMinion(minion, false) &&
                                 HealthPrediction.LaneClearHealthPrediction(
                                     minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay) <=
-                                Player.GetAutoAttackDamage(minion));
+                                Player.GetAutoAttackDamage(minion) - HeathDebuffer);
             }
 
             /// <summary>
@@ -1043,7 +1044,7 @@ namespace S_Plus_Class_Kalista.Libaries
                                 FireOnNonKillableMinion(minion);
                             }
 
-                            if (predHealth > 0 && predHealth <= Player.GetAutoAttackDamage(minion, true))
+                            if (predHealth > 0 && predHealth <= Player.GetAutoAttackDamage(minion, true) - HeathDebuffer)
                             {
                                 return minion;
                             }
@@ -1121,7 +1122,7 @@ namespace S_Plus_Class_Kalista.Libaries
                         {
                             var predHealth = HealthPrediction.LaneClearHealthPrediction(
                                 _prevMinion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay);
-                            if (predHealth >= 2 * Player.GetAutoAttackDamage(_prevMinion) ||
+                            if (predHealth >= 2 * Player.GetAutoAttackDamage(_prevMinion) - HeathDebuffer ||
                                 Math.Abs(predHealth - _prevMinion.Health) < float.Epsilon)
                             {
                                 return _prevMinion;
@@ -1138,7 +1139,7 @@ namespace S_Plus_Class_Kalista.Libaries
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
                                   where
-                                      predHealth >= 2 * Player.GetAutoAttackDamage(minion) ||
+                                      predHealth >= 2 * Player.GetAutoAttackDamage(minion) - HeathDebuffer ||
                                       Math.Abs(predHealth - minion.Health) < float.Epsilon
                                   select minion).MaxOrDefault(m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
