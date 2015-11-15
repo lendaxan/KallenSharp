@@ -73,7 +73,6 @@
     <Compile Include="Libaries\Git.cs" />
     <Compile Include="Libaries\LukeSkywalker.cs" />
     <Compile Include="Libaries\RendCheck.cs" />
-    <Compile Include="Libaries\SoulBoundDamage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\Items.cs" />
