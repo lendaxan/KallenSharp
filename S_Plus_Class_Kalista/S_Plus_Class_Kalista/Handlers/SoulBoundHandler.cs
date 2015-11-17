@@ -105,11 +105,14 @@ namespace S_Plus_Class_Kalista.Handlers
             //    if (Champion.R.Range > SoulBoundHero.Distance(Player) && Champion.R.IsReady())
             //        Champion.R.Cast();
             //}
+            var soulHealth = SoulBoundHero.Health;
+            if (SoulBoundHero.ChampionName == "Blitzcrank" && !SoulBoundHero.HasBuff("BlitzcrankManaBarrierCD") && !SoulBoundHero.HasBuff("ManaBarrier"))
+                soulHealth += SoulBoundHero.Mana / 2;
 
             if (SMenu.Item(_MenuItemBase + "Boolean.AutoSave.IncomingDamage").GetValue<bool>())
             {
                 if (SoulBoundHero.Distance(Player) > Champion.R.Range) return;
-                if (IncomingDamage > SoulBoundHero.Health || IncomingDamage > SoulBoundHero.Health * (100 - SMenu.Item(_MenuItemBase + "Boolean.AutoSave.Boolean.AutoSavePercent").GetValue<Slider>().Value) / 100)
+                if (IncomingDamage > soulHealth || IncomingDamage > soulHealth * (100 - SMenu.Item(_MenuItemBase + "Boolean.AutoSave.Boolean.AutoSavePercent").GetValue<Slider>().Value) / 100)
                         Champion.R.Cast();
             }
 
