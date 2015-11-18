@@ -29,6 +29,7 @@ namespace S_Plus_Class_Kalista
             OrbwalkHandler.Load();
             Console.WriteLine(@"S+ Class Kalista Loading Auto Events...");
             RendHandler.Load();
+            SentinelHandler.Load();
             Console.WriteLine(@"S+ Class Kalista Loading Trinkets...");
             TrinketHandler.Load();
             Console.WriteLine(@"S+ Class Kalista Loading Items...");

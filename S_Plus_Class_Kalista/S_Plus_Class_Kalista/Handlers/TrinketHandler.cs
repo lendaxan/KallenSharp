@@ -22,7 +22,7 @@ namespace S_Plus_Class_Kalista.Handlers
         private static Menu _Menu()
         {
             var menu = new Menu(_MenuNameBase, "trinketOptions");
-            menu.AddItem(new MenuItem(_MenuItemBase + "Boolean.BuyOrb", "Auto Buy Orb At Level >= 6").SetValue(true));
+            menu.AddItem(new MenuItem(_MenuItemBase + "Boolean.BuyOrb", "Auto Buy Orb At Level >= 9").SetValue(true));
             return menu;
         }
 
@@ -31,7 +31,7 @@ namespace S_Plus_Class_Kalista.Handlers
             if (!Limiter.CheckDelay($"{Humanizer.DelayItemBase}Slider.TrinketDelay")) return;
 
             Limiter.UseTick($"{Humanizer.DelayItemBase}Slider.TrinketDelay");
-            if (!SMenu.Item(_MenuItemBase + "Boolean.BuyOrb").GetValue<bool>() || Player.Level < 6) return;
+            if (!SMenu.Item(_MenuItemBase + "Boolean.BuyOrb").GetValue<bool>() || Player.Level < 9) return;
             if (!ObjectManager.Player.InShop() ||
                 Items.HasItem(ItemId.Scrying_Orb_Trinket.ToString()) ||
                 Items.HasItem(ItemId.Farsight_Orb_Trinket.ToString()))

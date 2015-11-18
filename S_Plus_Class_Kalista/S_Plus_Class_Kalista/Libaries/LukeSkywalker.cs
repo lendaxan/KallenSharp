@@ -540,12 +540,19 @@ namespace S_Plus_Class_Kalista.Libaries
                 }
             }
 
-            if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer && angle < 60)
+            if (Orbwalker.PassiveExploit && Utils.GameTimeTickCount*1000 >= Orbwalking.LastAATick + 2)
+            {
+                Player.IssueOrder(GameObjectOrder.MoveTo, point);
+                LastMoveCommandPosition = point;
+                LastMoveCommandT = Utils.GameTimeTickCount;
+            }
+
+            else if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer && angle < 60)
             {
                 return;
             }
 
-            if (angle >= 60 && Utils.GameTimeTickCount - LastMoveCommandT < 60)
+            else if (angle >= 60 && Utils.GameTimeTickCount - LastMoveCommandT < 60)
             {
                 return;
             }
@@ -586,9 +593,15 @@ namespace S_Plus_Class_Kalista.Libaries
                             _missileLaunched = false;
 
                             var d = GetRealAutoAttackRange(target) - 65;
-                            if (Player.Distance(target, true) > d * d && !Player.IsMelee)
+                            if (Player.Distance(target, true) > d*d && !Player.IsMelee)
                             {
-                                LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
+                                if (Orbwalker.PassiveExploit && 1/Player.AttackDelay > 1.65)
+                                    LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f) - 155;
+                                
+                                else 
+                                    LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 -
+                                                 (int) (ObjectManager.Player.AttackCastDelay*1000f);
+                                
                             }
                         }
 
@@ -832,6 +845,7 @@ namespace S_Plus_Class_Kalista.Libaries
                 misc.AddItem(new MenuItem($"{_orbwalkerName}.AttackPetsnTraps", "Auto attack pets & traps").SetShared().SetValue(true));
                 misc.AddItem(new MenuItem($"{_orbwalkerName}.Smallminionsprio", "Jungle clear small first").SetShared().SetValue(false));
                 misc.AddItem(new MenuItem($"{_orbwalkerName}.MinionComboOrbwalk", "Combo Orbwalk with Minions").SetShared().SetValue(true));
+                misc.AddItem(new MenuItem($"{_orbwalkerName}.PassiveExploit", "Use Passive Exploit").SetShared().SetValue(false));
                 _config.AddSubMenu(misc);
 
                 /* Missile check */
@@ -870,6 +884,9 @@ namespace S_Plus_Class_Kalista.Libaries
                 return Orbwalking.InAutoAttackRange(target);
             }
 
+
+            public static bool PassiveExploit => _config.Item($"{_orbwalkerName}.PassiveExploit").GetValue<bool>();
+           
             /// <summary>
             /// Gets the farm delay.
             /// </summary>
@@ -883,11 +900,9 @@ namespace S_Plus_Class_Kalista.Libaries
             /// Gets a value indicating whether the orbwalker is orbwalking by checking the missiles.
             /// </summary>
             /// <value><c>true</c> if the orbwalker is orbwalking by checking the missiles; otherwise, <c>false</c>.</value>
-            public static bool MissileCheck
-            {
-                get { return _config.Item($"{_orbwalkerName}.MissileCheck").GetValue<bool>(); }
-            }
+            public static bool MissileCheck => _config.Item($"{_orbwalkerName}.MissileCheck").GetValue<bool>();
 
+            /// <value><c>true</c> if the orbwalker is orbwalking by checking the missiles; otherwise, <c>false</c>.</value>
             /// <summary>
             /// Registers the Custom Mode of the Orbwalker. Useful for adding a flee mode and such.
             /// </summary>

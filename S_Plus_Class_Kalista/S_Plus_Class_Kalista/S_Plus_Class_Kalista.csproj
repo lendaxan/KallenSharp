@@ -67,6 +67,7 @@
     <Compile Include="Handlers\OrbwalkHandler.cs" />
     <Compile Include="Handlers\Humanizer.cs" />
     <Compile Include="Handlers\RendHandler.cs" />
+    <Compile Include="Handlers\SentinelHandler.cs" />
     <Compile Include="Handlers\SoulBoundHandler.cs" />
     <Compile Include="Handlers\TrinketHandler.cs" />
     <Compile Include="Libaries\Damage.cs" />
