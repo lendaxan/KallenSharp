@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -120,18 +121,14 @@ namespace S_Plus_Class_Kalista.Handlers
         }
 
 
-        private static string[] sDelays = new String[]
-        {"RendDelay", "NonKillableDelay", "LevelDelay", "EventDelay", "SoulBoundDelay", "ItemDelay", "TrinketDelay"};
+        private static string[] _sDelays = {"RendDelay", "NonKillableDelay", "LevelDelay", "EventDelay", "SoulBoundDelay", "ItemDelay", "TrinketDelay"};
         private static void LoadDelays()
         {
 
             try
                 {
-                    foreach (var sDelay in sDelays)
+                    foreach (var sDelay in _sDelays.Where(sDelay => !Delays.ContainsKey(sDelay)))
                     {
-                        if (Delays.ContainsKey(sDelay))
-                            continue;
-
                         Delays.Add($"{Humanizer.DelayItemBase}Slider.{sDelay}",
                             new NewLevelShit(
                                 SMenu.Item($"{Humanizer.DelayItemBase}Slider.{sDelay}").GetValue<Slider>().Value, 0f));

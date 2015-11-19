@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using ItemData = LeagueSharp.Common.Data.ItemData;
 
 namespace S_Plus_Class_Kalista.Handlers
 {
@@ -32,12 +33,10 @@ namespace S_Plus_Class_Kalista.Handlers
 
             Limiter.UseTick($"{Humanizer.DelayItemBase}Slider.TrinketDelay");
             if (!SMenu.Item(_MenuItemBase + "Boolean.BuyOrb").GetValue<bool>() || Player.Level < 9) return;
-            if (!ObjectManager.Player.InShop() ||
-                Items.HasItem(ItemId.Scrying_Orb_Trinket.ToString()) ||
-                Items.HasItem(ItemId.Farsight_Orb_Trinket.ToString()))
+            if (!ObjectManager.Player.InShop() || Items.HasItem(Structures.Items.Trinkets.Orb.Id))
                 return;
 
-            ObjectManager.Player.BuyItem(ItemId.Scrying_Orb_Trinket);
+            Structures.Items.Trinkets.Orb.Buy();
         }
     }
 }

@@ -403,7 +403,7 @@ namespace S_Plus_Class_Kalista.Libaries
             var myRange = GetRealAutoAttackRange(target);
             return
                 Vector2.DistanceSquared(
-                    (target is Obj_AI_Base) ? ((Obj_AI_Base)target).ServerPosition.To2D() : target.Position.To2D(),
+                    (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
                     Player.ServerPosition.To2D()) <= myRange * myRange;
         }
 
@@ -422,6 +422,9 @@ namespace S_Plus_Class_Kalista.Libaries
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack()
         {
+            if (Orbwalker.PassiveExploit && Utils.GameTimeTickCount * 1000 >= Orbwalking.LastAATick + 2)
+                return Utils.GameTimeTickCount >= LastAATick + Player.AttackDelay * 1000 && Attack;
+
             return Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAATick + Player.AttackDelay * 1000 && Attack;
         }
 
@@ -505,12 +508,10 @@ namespace S_Plus_Class_Kalista.Libaries
 
             if (playerPosition.Distance(position, true) < holdAreaRadius * holdAreaRadius)
             {
-                if (Player.Path.Length > 0)
-                {
-                    Player.IssueOrder(GameObjectOrder.Stop, playerPosition);
-                    LastMoveCommandPosition = playerPosition;
-                    LastMoveCommandT = Utils.GameTimeTickCount - 70;
-                }
+                if (Player.Path.Length <= 0) return;
+                Player.IssueOrder(GameObjectOrder.Stop, playerPosition);
+                LastMoveCommandPosition = playerPosition;
+                LastMoveCommandT = Utils.GameTimeTickCount - 70;
                 return;
             }
 
@@ -545,6 +546,7 @@ namespace S_Plus_Class_Kalista.Libaries
                 Player.IssueOrder(GameObjectOrder.MoveTo, point);
                 LastMoveCommandPosition = point;
                 LastMoveCommandT = Utils.GameTimeTickCount;
+                return;
             }
 
             else if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer && angle < 60)
@@ -1155,7 +1157,7 @@ namespace S_Plus_Class_Kalista.Libaries
                                           minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
                                   where
                                       predHealth >= 2 * Player.GetAutoAttackDamage(minion) - HeathDebuffer ||
-                                      Math.Abs(predHealth - minion.Health) < float.Epsilon
+                                      Math.Abs(predHealth - minion.Health + HeathDebuffer) < float.Epsilon
                                   select minion).MaxOrDefault(m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
                         if (result != null)

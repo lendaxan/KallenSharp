@@ -21,5 +21,11 @@ namespace S_Plus_Class_Kalista.Structures
             public static Item Qss = new Item(ItemData.Quicksilver_Sash.GetItem().Id);
             public static Item Merc = new Item(ItemData.Mercurial_Scimitar.GetItem().Id);
         }
+
+        public struct Trinkets
+        {
+            public static Item Orb = new Item(3363);
+        }
+
     }
 }

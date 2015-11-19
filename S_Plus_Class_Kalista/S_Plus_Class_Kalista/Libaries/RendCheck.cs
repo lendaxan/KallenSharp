@@ -22,6 +22,7 @@ namespace S_Plus_Class_Kalista.Libaries
             if (!Champion.E.IsReady()) return;
             if (!Limiter.CheckDelay($"{Humanizer.DelayItemBase}Slider.RendDelay")) return;
 
+            // BAD CODE
             var used = false;
             short count = 0;
             while (!used)
@@ -30,6 +31,7 @@ namespace S_Plus_Class_Kalista.Libaries
             }
         }
 
+        //BADDDDD
         private static bool GetUsed(short count)
         {
             switch (count)
