@@ -597,7 +597,7 @@ namespace S_Plus_Class_Kalista.Libaries
                             var d = GetRealAutoAttackRange(target) - 65;
                             if (Player.Distance(target, true) > d*d && !Player.IsMelee)
                             {
-                                if (Orbwalker.PassiveExploit && 1/Player.AttackDelay > 1.65)
+                                if (Orbwalker.PassiveExploit && 1/Player.AttackDelay < 1.65)
                                     LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f) - 155;
                                 
                                 else 
