@@ -591,13 +591,13 @@ namespace S_Plus_Class_Kalista.Libaries
                     {
                         if (!NoCancelChamps.Contains(_championName))
                         {
-                            LastAATick = (int)(Utils.GameTimeTickCount + ObjectManager.Player.AttackCastDelay * 1000f - 175);
+                            LastAATick = Utils.GameTimeTickCount + Game.Ping + 100 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
                             _missileLaunched = false;
 
                             var d = GetRealAutoAttackRange(target) - 65;
                             if (Player.Distance(target, true) > d*d && !Player.IsMelee)
                             {
-                                if (Orbwalker.PassiveExploit && 1/Player.AttackDelay < 1.65)
+                                if (Orbwalker.PassiveExploit || 1/Player.AttackDelay < 1.65)
                                     LastAATick = (int)(Utils.GameTimeTickCount + ObjectManager.Player.AttackCastDelay * 1000f - 155);
                                 
                                 else 
