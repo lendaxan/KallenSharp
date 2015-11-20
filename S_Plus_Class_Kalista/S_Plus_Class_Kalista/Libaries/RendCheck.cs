@@ -20,7 +20,7 @@ namespace S_Plus_Class_Kalista.Libaries
         private static void OnUpdate(EventArgs args)
         {
             if (!Champion.E.IsReady()) return;
-            if (!Limiter.CheckDelay($"{Humanizer.DelayItemBase}Slider.RendDelay")) return;
+            if (!Limiter.CheckDelay($"{Humanizer.DelayItemBase}Slider.EventDelay")) return;
 
             // BAD CODE
             var used = false;
@@ -29,6 +29,8 @@ namespace S_Plus_Class_Kalista.Libaries
             {
                 used = GetUsed(count++);
             }
+
+            Limiter.UseTick($"{Humanizer.DelayItemBase}Slider.EventDelay");
         }
 
         //BADDDDD

@@ -67,7 +67,8 @@ namespace S_Plus_Class_Kalista.Handlers
                 else if (slot.HasFlag(SpellSlot.Q | SpellSlot.W | SpellSlot.E | SpellSlot.R) &&
                          ((args.Target != null && args.Target.NetworkId == SoulBoundHero.NetworkId) ||
                           args.End.Distance(SoulBoundHero.ServerPosition) < Math.Pow(args.SData.LineWidth, 2)))
-                    _instantDamage.Add(Game.Time + 2, (float)attacker.GetSpellDamage(SoulBoundHero, slot));
+                    if((float)attacker.GetSpellDamage(SoulBoundHero, slot) > 10)
+                         _instantDamage.Add(Game.Time + 2, (float)attacker.GetSpellDamage(SoulBoundHero, slot));
             }
         }
         private static void OnUpdate(EventArgs args)
@@ -97,17 +98,13 @@ namespace S_Plus_Class_Kalista.Handlers
             }
 
 
-            //if (SoulBoundHero.HealthPercent <
-            //    SMenu.Item(_MenuItemBase + "Boolean.AutoSave.Slider.PercentHp").GetValue<Slider>().Value
-            //     && SoulBoundHero.CountEnemiesInRange(500) > 0 &&
-            //     SMenu.Item(_MenuItemBase + "Boolean.AutoSave.Boolean.AutoSavePercent").GetValue<bool>())
-            //{
-            //    if (Champion.R.Range > SoulBoundHero.Distance(Player) && Champion.R.IsReady())
-            //        Champion.R.Cast();
-            //}
             var soulHealth = SoulBoundHero.Health;
+
             if (SoulBoundHero.ChampionName == "Blitzcrank" && !SoulBoundHero.HasBuff("BlitzcrankManaBarrierCD") && !SoulBoundHero.HasBuff("ManaBarrier"))
                 soulHealth += SoulBoundHero.Mana / 2;
+
+            if (IncomingDamage < 10 || soulHealth < 20) return;
+
 
             if (!SMenu.Item(_MenuItemBase + "Boolean.AutoSave.IncomingDamage").GetValue<bool>()) return;
             if (SoulBoundHero.Distance(Player) > Champion.R.Range) return;

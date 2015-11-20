@@ -42,7 +42,7 @@ namespace S_Plus_Class_Kalista.Handlers
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.RendDelay", "Rend Delay").SetValue(new Slider(300, 200, 1250)));
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.NonKillableDelay",  "NonKillable Delay").SetValue(new Slider(500, 250, 1500)));
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.LevelDelay", "Level Delay").SetValue(new Slider(500, 150, 1000)));
-            subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.EventDelay", "Event Delay").SetValue(new Slider(300, 150, 1000)));
+            subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.EventDelay", "Check Delay").SetValue(new Slider(100, 50, 200)));
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.SoulBoundDelay", "SoulBound Delay").SetValue(new Slider(250, 100, 1000)));
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.ItemDelay", "Item Delay").SetValue(new Slider(200, 100, 1000)));
             subMenuDelay.AddItem(new MenuItem(DelayItemBase + "Slider.TrinketDelay", "Trinket Delay").SetValue(new Slider(500, 250, 2000)));
