@@ -37,7 +37,7 @@ namespace S_Plus_Class_Kalista.Handlers
 
             subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendHarrassKill", "Rend harass (kills minion + stack on enemy)").SetValue(true));
             subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendHarrassKill.Slider.Stacks", "Required stacks on enemy").SetValue(new Slider(1, 1, 5)));
-            subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendHarrassKill.Slider.Killed", "Required minions killed").SetValue(new Slider(2, 2, 10)));
+            subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendHarrassKill.Slider.Killed", "Required minions killed").SetValue(new Slider(1, 1, 10)));
 
             subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendBeforeDeath", "Rend before death").SetValue(false));
             subMenu2.AddItem(new MenuItem(_MenuItemBase + "Boolean.RendBeforeDeath.Slider.Enemies", "Required enimies with stacks").SetValue(new Slider(1, 1, 5)));
